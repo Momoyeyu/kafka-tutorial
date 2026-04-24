@@ -1,0 +1,18 @@
+[project]
+name = "kafka-tuturial"
+version = "0.1.0"
+description = "Apache Kafka Python 教学 Tutorial"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiokafka>=0.13.0",
+    "ipykernel>=6.29.0",
+    "notebook>=7.0.0",
+    "python-snappy>=0.7.0",
+]
+
+[project.optional-dependencies]
+# Module 8: taskiq task queue demo
+taskiq = [
+    "taskiq>=0.11.0",
+]

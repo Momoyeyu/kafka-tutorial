@@ -1,0 +1,23 @@
+# Module 8 专用 docker-compose
+# 在根目录的 3-broker 集群基础上，额外添加 taskiq worker 服务
+# 用法：
+#   先启动基础集群: docker compose up -d       (项目根目录)
+#   再启动 worker:  docker compose up -d       (module-8 目录)
+
+services:
+  taskiq-worker:
+    image: ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+    working_dir: /app
+    volumes:
+      - ..:/app
+    environment:
+      KAFKA_BROKERS: "kafka-1:9092,kafka-2:9092,kafka-3:9092"
+    command: >
+      sh -c "cd /app && uv sync --extra taskiq &&
+             uv run taskiq worker module_8.tasks:broker --workers 2"
+    restart: on-failure
+
+networks:
+  default:
+    name: kafka-tuturial_default
+    external: true
